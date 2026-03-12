@@ -8,15 +8,14 @@ let clickCount = 0;
 
 function handleAdClick() {
     clickCount++;
-    // Opens ad from the 2nd click onwards
     if (clickCount > 1) {
         const randomAd = adLinks[Math.floor(Math.random() * adLinks.length)];
         window.open(randomAd, '_blank');
     }
 }
 
-// --- AUTOMATIC IMAGE LOADING ---
-// This loop creates the list: ["img/foto1.jpg", "img/foto2.jpg", ..., "img/foto20.jpg"]
+// --- IMAGE GENERATION ---
+// This assumes your folder is named "img" and files are "foto1.jpg"
 const profileImageUrls = [];
 for (let i = 1; i <= 20; i++) {
     profileImageUrls.push(`img/foto${i}.jpg`);
@@ -24,19 +23,11 @@ for (let i = 1; i <= 20; i++) {
 
 const femaleNames = ["Maria", "Ana", "Alice", "Helena", "Valentina", "Fernanda", "Juliana", "Sophia", "Amanda", "Letícia", "Luzia", "Antonia", "Francisca", "Terezinha"];
 
-// --- APP STATE ---
 let matches = [];
 let chatHistories = {};
 let currentPartner = null;
 
-// --- CORE FUNCTIONS ---
-
-function getAiResponse(text, name) {
-    const msg = text.toLowerCase();
-    if (msg.includes("tudo bem")) return "Tudo ótimo por aqui! E com você?";
-    if (msg.includes("idade")) return "Tenho 23 anos! E você?";
-    return "Que legal! Me conta mais? 😊";
-}
+// --- APP LOGIC ---
 
 function createCard() {
     const url = profileImageUrls[Math.floor(Math.random() * profileImageUrls.length)];
@@ -44,7 +35,7 @@ function createCard() {
     const card = document.createElement('div');
     card.className = 'card';
     card.innerHTML = `
-        <img src="${url}" onerror="this.src='https://via.placeholder.com/400x600?text=Foto+Nao+Encontrada'">
+        <img src="${url}" onerror="this.src='https://via.placeholder.com/400x600?text=Image+Not+Found'">
         <div class="card-info">
             <h2>${name}, 22 <span class="online-dot pulse"></span></h2>
             <p>Online agora</p>
@@ -74,7 +65,8 @@ function swipe(isLike) {
     
     setTimeout(() => {
         topCard.remove();
-        document.getElementById('card-stack').prepend(createCard());
+        const newCard = createCard();
+        document.getElementById('card-stack').prepend(newCard);
     }, 400);
 }
 
@@ -112,8 +104,7 @@ function sendMsg() {
     input.value = '';
     
     setTimeout(() => {
-        const reply = getAiResponse(text, currentPartner.name);
-        chatHistories[currentPartner.name].push({ sender: 'ai', text: reply });
+        chatHistories[currentPartner.name].push({ sender: 'ai', text: "Que legal! Me conta mais? 😊" });
         renderChat();
         updateInbox();
     }, 1000);
@@ -131,6 +122,11 @@ function showView(id, navEl) {
 function closeMatch() { document.getElementById('match-popup').style.display = 'none'; }
 function openChatFromMatch() { closeMatch(); openChat(currentPartner.name, currentPartner.img); }
 
-// INITIALIZE
-document.getElementById('send-btn').onclick = () => { handleAdClick(); sendMsg(); };
-for(let i=0; i<3; i++) document.getElementById('card-stack').prepend(createCard());
+// Wait for HTML to load before running
+window.onload = () => {
+    const stack = document.getElementById('card-stack');
+    for(let i=0; i<3; i++) {
+        stack.prepend(createCard());
+    }
+    document.getElementById('send-btn').onclick = () => { handleAdClick(); sendMsg(); };
+};
