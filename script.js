@@ -1,9 +1,8 @@
-// --- AD CONFIGURATION ---
+// --- ADS ---
 const adLinks = [
     "https://www.effectivegatecpm.com/szaxcfckwf?key=16135805dc97698328fbcff487238624",
     "https://omg10.com/4/10716564"
 ];
-
 let clickCount = 0;
 
 function handleAdClick() {
@@ -14,10 +13,9 @@ function handleAdClick() {
     }
 }
 
-// --- IMAGE GENERATION ---
-// This assumes your folder is named "img" and files are "foto1.jpg"
+// --- IMAGES ---
 const profileImageUrls = [];
-for (let i = 1; i <= 14; i++) {
+for (let i = 1; i <= 20; i++) {
     profileImageUrls.push(`img/foto${i}.jpg`);
 }
 
@@ -27,18 +25,17 @@ let matches = [];
 let chatHistories = {};
 let currentPartner = null;
 
-// --- APP LOGIC ---
-
+// --- FUNCTIONS ---
 function createCard() {
     const url = profileImageUrls[Math.floor(Math.random() * profileImageUrls.length)];
     const name = femaleNames[Math.floor(Math.random() * femaleNames.length)];
     const card = document.createElement('div');
     card.className = 'card';
     card.innerHTML = `
-        <img src="${url}" onerror="this.src='https://via.placeholder.com/400x600?text=Image+Not+Found'">
+        <img src="${url}" onerror="this.src='https://via.placeholder.com/400x600?text=Imagem+Nao+Encontrada'">
         <div class="card-info">
             <h2>${name}, 22 <span class="online-dot pulse"></span></h2>
-            <p>Online agora</p>
+            <p>Online agora • Perto de você</p>
         </div>`;
     card.data = { name, img: url };
     return card;
@@ -58,15 +55,14 @@ function swipe(isLike) {
         
         if (!chatHistories[currentPartner.name]) {
             matches.push(currentPartner);
-            chatHistories[currentPartner.name] = [{ sender: 'ai', text: `Oi! Sou a ${currentPartner.name}.` }];
+            chatHistories[currentPartner.name] = [{ sender: 'ai', text: `Oi! Sou a ${currentPartner.name}. Gostei do seu perfil!` }];
             updateInbox();
         }
     }
     
     setTimeout(() => {
         topCard.remove();
-        const newCard = createCard();
-        document.getElementById('card-stack').prepend(newCard);
+        document.getElementById('card-stack').prepend(createCard());
     }, 400);
 }
 
@@ -75,7 +71,10 @@ function updateInbox() {
     list.innerHTML = matches.map(m => `
         <div class="inbox-item" onclick="handleAdClick(); openChat('${m.name}', '${m.img}')">
             <img src="${m.img}" class="avatar">
-            <div><b>${m.name}</b><br><small>Online</small></div>
+            <div>
+                <b style="font-size:16px;">${m.name}</b>
+                <p style="font-size:13px; color:#888;">${chatHistories[m.name].slice(-1)[0].text}</p>
+            </div>
         </div>`).join('');
 }
 
@@ -104,7 +103,7 @@ function sendMsg() {
     input.value = '';
     
     setTimeout(() => {
-        chatHistories[currentPartner.name].push({ sender: 'ai', text: "Que legal! Me conta mais? 😊" });
+        chatHistories[currentPartner.name].push({ sender: 'ai', text: "Que legal! Me conta mais sobre você? 😊" });
         renderChat();
         updateInbox();
     }, 1000);
@@ -122,11 +121,15 @@ function showView(id, navEl) {
 function closeMatch() { document.getElementById('match-popup').style.display = 'none'; }
 function openChatFromMatch() { closeMatch(); openChat(currentPartner.name, currentPartner.img); }
 
-// Wait for HTML to load before running
+// --- INIT ---
 window.onload = () => {
     const stack = document.getElementById('card-stack');
     for(let i=0; i<3; i++) {
         stack.prepend(createCard());
     }
+    
     document.getElementById('send-btn').onclick = () => { handleAdClick(); sendMsg(); };
+    document.getElementById('chat-input').onkeypress = (e) => {
+        if (e.key === 'Enter') { handleAdClick(); sendMsg(); }
+    };
 };
