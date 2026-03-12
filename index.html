@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Elo | Premium</title>
+    <title>Elo | Conexões Reais</title>
     <style>
         :root {
             --primary: #ff4b6b;
@@ -11,29 +11,131 @@
             --bg: #121212;
             --online: #4cd137;
         }
-        * { box-sizing: border-box; font-family: sans-serif; margin: 0; padding: 0; }
-        body { background: var(--bg); display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; }
-        .app-shell { width: 100%; max-width: 400px; height: 100vh; background: white; position: relative; display: flex; flex-direction: column; }
-        @media (min-width: 500px) { .app-shell { height: 90vh; border-radius: 30px; border: 8px solid #222; } }
-        .header { padding: 20px; font-size: 24px; font-weight: bold; color: var(--primary); border-bottom: 1px solid #eee; }
+
+        * { box-sizing: border-box; font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; padding: 0; }
+        
+        body { 
+            background: var(--bg); 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            overflow: hidden; 
+        }
+
+        /* App Container */
+        .app-shell {
+            width: 100%;
+            max-width: 400px; 
+            height: 100vh;
+            background: white; 
+            position: relative; 
+            display: flex; 
+            flex-direction: column;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+        }
+
+        @media (min-width: 500px) {
+            .app-shell { height: 90vh; border-radius: 30px; border: 8px solid #222; }
+        }
+
+        /* Header */
+        .header { padding: 20px; font-size: 26px; font-weight: 800; color: var(--primary); border-bottom: 1px solid #f0f0f0; }
+
+        /* Views */
         .view { flex: 1; display: none; flex-direction: column; overflow: hidden; }
         .view.active { display: flex; }
-        .stack { flex: 1; position: relative; margin: 15px; background: #f0f0f0; border-radius: 20px; }
-        .card { position: absolute; width: 100%; height: 100%; border-radius: 20px; overflow: hidden; background: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+
+        /* Match Cards */
+        .stack { flex: 1; position: relative; margin: 15px; background: #fafafa; border-radius: 20px; }
+        .card { 
+            position: absolute; width: 100%; height: 100%; 
+            border-radius: 20px; overflow: hidden; background: #fff; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.4s ease-out;
+        }
         .card img { width: 100%; height: 100%; object-fit: cover; }
-        .card-info { position: absolute; bottom: 0; width: 100%; padding: 40px 15px 15px; background: linear-gradient(transparent, rgba(0,0,0,0.8)); color: white; }
-        .inbox-item { display: flex; align-items: center; padding: 15px; gap: 12px; border-bottom: 1px solid #f9f9f9; cursor: pointer; }
-        .avatar { width: 55px; height: 55px; border-radius: 50%; object-fit: cover; }
-        #chat-log { flex: 1; padding: 15px; overflow-y: auto; background: #f9f9f9; display: flex; flex-direction: column; gap: 10px; }
-        .bubble { padding: 10px 15px; border-radius: 18px; font-size: 14px; max-width: 75%; }
-        .user { align-self: flex-end; background: var(--gradient); color: white; }
-        .ai { align-self: flex-start; background: white; border: 1px solid #eee; }
-        .nav { height: 65px; border-top: 1px solid #eee; display: flex; justify-content: space-around; align-items: center; }
-        .nav-item { font-size: 24px; cursor: pointer; color: #ccc; }
+        .card-info { 
+            position: absolute; bottom: 0; width: 100%; 
+            padding: 50px 15px 15px; 
+            background: linear-gradient(transparent, rgba(0,0,0,0.9)); 
+            color: white; 
+        }
+
+        /* Inbox Items */
+        .inbox-item { display: flex; align-items: center; padding: 15px; gap: 12px; border-bottom: 1px solid #f5f5f5; cursor: pointer; }
+        .avatar { width: 55px; height: 55px; border-radius: 50%; object-fit: cover; background: #eee; }
+
+        /* Chat UI */
+        #chat-log { flex: 1; padding: 15px; overflow-y: auto; background: #fdfdfd; display: flex; flex-direction: column; gap: 10px; }
+        .bubble { padding: 12px 16px; border-radius: 20px; font-size: 14px; max-width: 75%; line-height: 1.4; }
+        .user { align-self: flex-end; background: var(--gradient); color: white; border-bottom-right-radius: 4px; }
+        .ai { align-self: flex-start; background: #f1f1f1; color: #222; border-bottom-left-radius: 4px; }
+
+        /* Navigation Bar */
+        .nav { height: 70px; border-top: 1px solid #eee; display: flex; justify-content: space-around; align-items: center; background: white; }
+        .nav-item { font-size: 26px; cursor: pointer; color: #ddd; transition: 0.2s; }
         .nav-item.active { color: var(--primary); }
-        .online-dot { width: 10px; height: 10px; background: var(--online); border-radius: 50%; display: inline-block; border: 2px solid white; }
-        #match-popup { position: absolute; inset: 0; background: rgba(0,0,0,0.9); z-index: 100; display: none; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center; }
+
+        /* Match Popup Overlay */
+        #match-popup { 
+            position: absolute; inset: 0; background: rgba(0,0,0,0.95); 
+            z-index: 100; display: none; flex-direction: column; 
+            justify-content: center; align-items: center; color: white; text-align: center; 
+        }
+
+        /* Online Status Indicator */
+        .online-dot { width: 10px; height: 10px; background: var(--online); border-radius: 50%; display: inline-block; border: 1.5px solid white; }
+        .pulse { animation: pulse-anim 2s infinite; }
+        @keyframes pulse-anim { 0% {opacity: 1} 50% {opacity: 0.5} 100% {opacity: 1} }
     </style>
+</head>
+<body>
+
+<div class="app-shell">
+    <div id="match-popup">
+        <h1 style="color:var(--primary); font-size: 40px;">DEU MATCH!</h1>
+        <p style="margin: 10px 0;">Você e <span id="match-name-label" style="font-weight:bold;"></span> se curtiram.</p>
+        <button onclick="handleAdClick(); openChatFromMatch();" style="margin-top:20px; padding:15px 40px; border-radius:30px; border:none; background:var(--gradient); color:white; font-weight:bold; cursor:pointer;">Enviar Mensagem</button>
+        <p onclick="closeMatch()" style="margin-top:20px; font-size:14px; opacity:0.6; cursor:pointer; text-decoration: underline;">Voltar</p>
+    </div>
+
+    <div id="view-discover" class="view active">
+        <div class="header">Elo &#10084;</div>
+        <div class="stack" id="card-stack"></div>
+        <div style="padding:20px; display:flex; justify-content:center; gap:25px;">
+            <button onclick="handleAdClick(); swipe(false)" style="width:60px; height:60px; border-radius:50%; border:1px solid #eee; background:white; color:red; font-size:24px; cursor:pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">✕</button>
+            <button onclick="handleAdClick(); swipe(true)" style="width:60px; height:60px; border-radius:50%; border:none; background:var(--gradient); color:white; font-size:24px; cursor:pointer; box-shadow: 0 4px 15px rgba(255,75,107,0.3);">❤</button>
+        </div>
+    </div>
+
+    <div id="view-inbox" class="view">
+        <div class="header">Conversas</div>
+        <div id="inbox-list"></div>
+    </div>
+
+    <div id="view-chat" class="view">
+        <div style="padding:15px; border-bottom:1px solid #f0f0f0; display:flex; align-items:center; gap:12px;">
+            <button onclick="handleAdClick(); showView('inbox')" style="border:none; background:none; font-size:26px; cursor:pointer; color: #888;">‹</button>
+            <img id="chat-img" class="avatar" style="width:40px; height:40px;">
+            <b id="chat-name-header"></b>
+        </div>
+        <div id="chat-log"></div>
+        <div style="padding:15px; display:flex; gap:8px; border-top: 1px solid #f0f0f0;">
+            <input type="text" id="chat-input" style="flex:1; padding:12px 18px; border-radius:25px; border:1px solid #eee; outline:none; background: #f9f9f9;" placeholder="Digite uma mensagem...">
+            <button id="send-btn" style="background:var(--primary); color:white; border:none; padding:0 20px; border-radius:25px; font-weight:bold; cursor:pointer;">➔</button>
+        </div>
+    </div>
+
+    <div class="nav">
+        <div class="nav-item active" onclick="handleAdClick(); showView('discover', this)">🎴</div>
+        <div class="nav-item" onclick="handleAdClick(); showView('inbox', this)">💬</div>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
 </head>
 <body>
 
