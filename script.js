@@ -17,7 +17,7 @@ function handleAdClick() {
 // --- IMAGE GENERATION ---
 // This assumes your folder is named "img" and files are "foto1.jpg"
 const profileImageUrls = [];
-for (let i = 1; i <= 20; i++) {
+for (let i = 1; i <= 14; i++) {
     profileImageUrls.push(`img/foto${i}.jpg`);
 }
 
