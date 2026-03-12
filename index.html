@@ -136,69 +136,7 @@
 <script src="script.js"></script>
 </body>
 </html>
-</head>
-<body>
-
-<div class="app-shell">
-    <div id="match-popup">
-        <h1 style="color:var(--primary)">DEU MATCH!</h1>
-        <p>Você e <span id="match-name-label"></span> combinaram!</p>
-        <button onclick="handleAdClick(); openChatFromMatch();" style="margin-top:20px; padding:12px 30px; border-radius:25px; border:none; background:var(--gradient); color:white; font-weight:bold;">Mandar Mensagem</button>
-        <p onclick="closeMatch()" style="margin-top:15px; font-size:12px; opacity:0.6; cursor:pointer;">Voltar</p>
-    </div>
-
-    <div id="view-discover" class="view active">
-        <div class="header">Elo &#10084;</div>
-        <div class="stack" id="card-stack"></div>
-        <div style="padding:15px; display:flex; justify-content:center; gap:20px;">
-            <button onclick="handleAdClick(); swipe(false)" style="width:55px; height:55px; border-radius:50%; border:1px solid #eee; background:white; color:red; cursor:pointer;">✕</button>
-            <button onclick="handleAdClick(); swipe(true)" style="width:55px; height:55px; border-radius:50%; border:none; background:var(--gradient); color:white; cursor:pointer;">❤</button>
-        </div>
-    </div>
-
-    <div id="view-inbox" class="view">
-        <div class="header">Mensagens</div>
-        <div id="inbox-list"></div>
-    </div>
-
-    <div id="view-chat" class="view">
-        <div style="padding:10px; border-bottom:1px solid #eee; display:flex; align-items:center; gap:10px;">
-            <button onclick="showView('inbox')" style="border:none; background:none; font-size:20px; cursor:pointer;">‹</button>
-            <img id="chat-img" class="avatar" style="width:35px; height:35px;">
-            <b id="chat-name-header"></b>
-        </div>
-        <div id="chat-log"></div>
-        <div style="padding:10px; display:flex; gap:5px;">
-            <input type="text" id="chat-input" style="flex:1; padding:10px; border-radius:20px; border:1px solid #eee;" placeholder="Diga oi...">
-            <button id="send-btn" style="background:var(--primary); color:white; border:none; padding:0 15px; border-radius:20px; cursor:pointer;">Enviar</button>
-        </div>
-    </div>
-
-    <div class="nav">
-        <div class="nav-item active" onclick="showView('discover', this)">🎴</div>
-        <div class="nav-item" onclick="showView('inbox', this)">💬</div>
-    </div>
-</div>
-
-<script src="script.js"></script>
-</body>
-</html>
-</head>
-<body>
-
-<div class="app-shell">
-    <div id="match-popup">
-        <h1 style="color:var(--primary)">DEU MATCH!</h1>
-        <p>Você e <span id="match-name-label"></span> combinaram!</p>
-        <button onclick="handleAdClick(); openChatFromMatch();" style="margin-top:20px; padding:12px 30px; border-radius:25px; border:none; background:var(--gradient); color:white; font-weight:bold;">Mandar Mensagem</button>
-        <p onclick="closeMatch()" style="margin-top:15px; font-size:12px; opacity:0.6; cursor:pointer;">Voltar</p>
-    </div>
-
-    <div id="view-discover" class="view active">
-        <div class="header">Elo &#10084;</div>
-        <div class="stack" id="card-stack"></div>
-        <div style="padding:15px; display:flex; justify-content:center; gap:20px;">
-            <button onclick="handleAdClick(); swipe(false)" style="width:55px; height:55px; border-radius:50%; border:1px solid #eee; background:white; color:red; cursor:pointer;">✕</button>
+ style="width:55px; height:55px; border-radius:50%; border:1px solid #eee; background:white; color:red; cursor:pointer;">✕</button>
             <button onclick="handleAdClick(); swipe(true)" style="width:55px; height:55px; border-radius:50%; border:none; background:var(--gradient); color:white; cursor:pointer;">❤</button>
         </div>
     </div>
