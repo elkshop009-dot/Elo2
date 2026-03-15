@@ -1,6 +1,6 @@
 // --- ADMIN CONTROL PANEL ---
 const CONFIG = {
-    adsEnabled: true,          // Toggle standard ad popups (on/off)
+    adsEnabled: false,          // Toggle standard ad popups (on/off)
     cpaLockerEnabled: true,    // Toggle the 10-second CPA Locker (on/off)
     cpaTimerSeconds: 10        // Seconds until the CPA Locker triggers
 };
