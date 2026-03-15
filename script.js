@@ -1,14 +1,14 @@
 // --- ADMIN CONTROL PANEL ---
 const CONFIG = {
     adsEnabled: false,          // Toggle standard ad popups (on/off)
-    cpaLockerEnabled: true,    // Toggle the 10-second CPA Locker (on/off)
+    cpaLockerEnabled: false,    // Toggle the 10-second CPA Locker (on/off)
     cpaTimerSeconds: 10        // Seconds until the CPA Locker triggers
 };
 
 // --- ADS CONFIGURATION ---
 const adLinks = [
-    "https://www.effectivegatecpm.com/szaxcfckwf?key=16135805dc97698328fbcff487238624",
-    "https://omg10.com/4/10716564"
+   "https://www.effectivegatecpm.com/szaxcfckwf?key=16135805dc97698328fbcff487238624",
+   "https://omg10.com/4/10716564"
 ];
 let clickCount = 0;
 
